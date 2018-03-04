@@ -18,15 +18,16 @@ X_train, X_test, labels_train,labels_test=load_dataset()
 
 
 # part B: one hot encoding
-y_train = np.zeros((60000, 10))
-y_test=np.zeros((10000, 10))
-y_train[np.arange(60000), labels_train] = 1
-y_test[np.arange(10000), labels_test] = 1
+y_train = np.zeros((X_train.shape[0], 10))
+y_test=np.zeros((X_test.shape[0], 10))
+y_train[np.arange(X_train.shape[0]), labels_train] = 1
+y_test[np.arange(X_test.shape[0]), labels_test] = 1
 
         
 #part C functions and accuracy calculations
 def train(X, y,l):
-    a=np.dot(X.T,X)+l*np.eye(784)
+    buf=np.dot(X.T,X)
+    a=buf+l*np.eye(buf.shape[0])
     b=np.dot(X.T,y)
     W=np.linalg.solve(a,b)
     
@@ -52,7 +53,7 @@ test_acc,test_error=accuracy(labels_test,lab_test)
 train_acc,train_error=accuracy(labels_train,lab_train)
 #new_X_train=np.random.shuffle(X_train.flat)
 #%%
-# part d. training for transformation and cross validations
+# part d. training for transformation and cross validations for this particular dataset
 def train_new(X, y,l):
     c=np.dot(X.T,X)+l*np.eye(X.shape[1])
     d=np.dot(X.T,y)
